@@ -21,9 +21,9 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore source/OctoFX.sln
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build source/OctoFX.sln --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Create artifacts folder
