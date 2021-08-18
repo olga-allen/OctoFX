@@ -10,20 +10,23 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Set Version
       run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 4.5
+    - name: Setup MSBuild Path
+      uses: microsoft/setup-msbuild@v1.0.2
+       
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5  
+      
     - name: Restore dependencies
-      run: dotnet restore source/OctoFX.sln
+      run: nuget restore source/OctoFX.sln
     - name: Build
-      run: dotnet build source/OctoFX.sln --configuration Release --no-restore
+      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile -verbosity:quiet
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Create artifacts folder
