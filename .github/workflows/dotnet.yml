@@ -21,14 +21,11 @@ jobs:
        
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5 
-      
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1.7.2
-      with:
-        dotnet-version: 4.5
+
       
     - name: Restore dependencies
       run: nuget restore source/OctoFX.sln
+      
     - name: Build
       run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile -verbosity:quiet
 
