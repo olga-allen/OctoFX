@@ -35,4 +35,19 @@ jobs:
         mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.Database"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.RateService"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.TradingWebsite"
+        
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octocli@v1
+      with:
+        version: 7.4.2
+    - name: Package OctoFX.Database
+      run: |
+        octo pack --id="OctoFX.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+    - name: Package OctoFX.TradingWebsite
+      run: |
+        octo pack --id="OctoFX.TradingWebsite" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts"
+    - name: Package OctoFX.RateService
+      run: octo pack --id="OctoFX.RateService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.RateService" --outFolder="$GITHUB_WORKSPACE/artifacts"
+    
+
 
