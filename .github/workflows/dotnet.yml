@@ -30,7 +30,7 @@ jobs:
       run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile -verbosity:quiet
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test source/OctoFX.sln --no-build --verbosity normal
     - name: Create artifacts folder
       run: |
         mkdir "$GITHUB_WORKSPACE/artifacts"
