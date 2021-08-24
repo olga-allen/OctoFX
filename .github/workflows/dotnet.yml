@@ -42,8 +42,10 @@ jobs:
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
         mkdir "$WORKSPACE/artifacts/OctoFX.TradingWebsite"
         
+        echo "PACKAGE_VERSION is $PACKAGE_VERSION" 
+        
     - name: Publish OctoFX.Database
-      run: dotnet publish source/OctoFX.Database/OctoFX.Database.csproj--configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
+      run: dotnet publish source/OctoFX.Database/OctoFX.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
       
     - name: NugetPack
      
