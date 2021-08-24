@@ -41,22 +41,19 @@ jobs:
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
         
         echo "PACKAGE_VERSION is $PACKAGE_VERSION"  
-         
-    - name: Build
-      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile 
-
-     
-    - name: NugetPack
-      run: |
-          nuget pack ${{ env.NUSPEC_FILE_NAME }} -Version ${{env.PACKAGE_VERSION}} --OutputDirectory "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
-      
+        
     - name: Install Octopus CLI
       uses: OctopusDeploy/install-octocli@v1
       with:
-        version: 7.4.2
+        version: 7.4.2    
+         
+    - name: Build
+      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:OctoPackPackageVersion=<version>
+
     - name: Package OctoFX.Database
       run: |
-        octo pack --id="OctoFX.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$WORKSPACE/artifacts/OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        
     - name: Package OctoFX.TradingWebsite
       run: |
         octo pack --id="OctoFX.TradingWebsite" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$WORKSPACE/artifacts/OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts"
