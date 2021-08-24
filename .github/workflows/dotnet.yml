@@ -31,8 +31,9 @@ jobs:
 
     - name: Create artifacts folder
       env: 
-        WORKSPACE: olga
+        WORKSPACE: olga-allen
         PACKAGE_VERSION: $(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER
+        NUSPEC_FILE_NAME: "package.nuspec"
       
       run: |
       
@@ -41,6 +42,16 @@ jobs:
         mkdir "$WORKSPACE/artifacts/OctoFX.RateService"
         mkdir "$WORKSPACE/artifacts/OctoFX.TradingWebsite"
         
+    - name: Publish OctoFX.Database
+      run: dotnet publish source/OctoFX/source/OctoFX.Database/OctoFX.Database.csproj--configuration Release --no-restore --output "$WORKSPACE/artifacts/OctoFX.Database"
+      
+    - name: NugetPack
+     
+      run: |
+       # move to the directory
+          cd source\OctoFX\OctoFX.TradingWebsite\ 
+          nuget pack ${{ env.NUSPEC_FILE_NAME }} -Version ${{env.PACKAGE_VERSION}}
+      
     - name: Install Octopus CLI
       uses: OctopusDeploy/install-octocli@v1
       with:
