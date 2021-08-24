@@ -38,21 +38,18 @@ jobs:
       run: |
       
         mkdir "$env.WORKSPACE/artifacts"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
+        mkdir "$WORKSPACE/artifacts/OctoFX.Database"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
-        mkdir "$WORKSPACE/artifacts/OctoFX.TradingWebsite"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
         
-        echo "PACKAGE_VERSION is $PACKAGE_VERSION" 
-        
-    - name: Publish OctoFX.Database
-      run: dotnet publish source/OctoFX.Database/OctoFX.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
-      
+        echo "PACKAGE_VERSION is $PACKAGE_VERSION"  
+     
     - name: NugetPack
      
       run: |
        # move to the directory
           cd source\OctoFX\OctoFX.TradingWebsite\ 
-          nuget pack ${{ env.NUSPEC_FILE_NAME }} -Version ${{env.PACKAGE_VERSION}}
+          nuget pack ${{ env.NUSPEC_FILE_NAME }} -Version ${{env.PACKAGE_VERSION}} --OutputDirectory  "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
       
     - name: Install Octopus CLI
       uses: OctopusDeploy/install-octocli@v1
