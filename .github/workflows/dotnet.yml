@@ -34,7 +34,6 @@ jobs:
         NUSPEC_FILE_NAME: "package.nuspec"
       
       run: |
-      
         mkdir "$GITHUB_WORKSPACE/artifacts"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
@@ -48,28 +47,12 @@ jobs:
         version: 7.4.2    
          
     - name: Build
-      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:OctoPackPackageVersion=<version>
+      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true
 
     - name: Package OctoFX.Database
       run: |
         octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
         
-    - name: Package OctoFX.TradingWebsite
-      run: |
-        octo pack --id="OctoFX.TradingWebsite" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$WORKSPACE/artifacts/OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts"
-    - name: Package OctoFX.RateService
-      run: |
-        octo pack --id="OctoFX.RateService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$WORKSPACE/artifacts/OctoFX.RateService" --outFolder="$GITHUB_WORKSPACE/artifacts"
-    
-    - name: Push OctoFX Database
-      run: |
-        octo push --package="$WORKSPACE/artifacts/OctoFX.Database.$PACKAGE_VERSION.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
-    - name: Push OctoFX TradingWebsite
-      run: |
-        octo push --package="$WORKSPACE/artifacts/OctoFX.TradingWebsite.$PACKAGE_VERSION.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
-    - name: Push OctoFX RateService
-      run: |
-        octo push --package="$WORKSPACE/artifacts/OctoFX.RateService.$PACKAGE_VERSION.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
-
+   
 
 
