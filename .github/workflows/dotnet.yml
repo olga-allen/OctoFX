@@ -37,13 +37,13 @@ jobs:
       
       run: |
       
-        mkdir "$WORKSPACE/artifacts"
-        mkdir "$WORKSPACE/artifacts/OctoFX.Database"
-        mkdir "$WORKSPACE/artifacts/OctoFX.RateService"
+        mkdir "$env.WORKSPACE/artifacts"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
         mkdir "$WORKSPACE/artifacts/OctoFX.TradingWebsite"
         
     - name: Publish OctoFX.Database
-      run: dotnet publish source/OctoFX/source/OctoFX.Database/OctoFX.Database.csproj--configuration Release --no-restore --output "$WORKSPACE/artifacts/OctoFX.Database"
+      run: dotnet publish source/OctoFX.Database/OctoFX.Database.csproj--configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
       
     - name: NugetPack
      
