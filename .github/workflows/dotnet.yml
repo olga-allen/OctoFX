@@ -29,8 +29,6 @@ jobs:
   
     - name: Create artifacts folder
       env: 
-        WORKSPACE: "olga-allen"
-        PACKAGE_VERSION: $GITHUB_RUN_NUMBER
         NUSPEC_FILE_NAME: "package.nuspec"
       
       run: |
@@ -38,8 +36,7 @@ jobs:
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
         mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
-        
-        echo "PACKAGE_VERSION is $PACKAGE_VERSION"  
+          
         
     - name: Install Octopus CLI
       uses: OctopusDeploy/install-octocli@v1
@@ -52,6 +49,11 @@ jobs:
     - name: Package OctoFX.Database
       run: |
         octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        
+    - name: Push OctoFX Database
+      run: |
+        octo push --package="$WORKSPACE/artifacts/OctoFX.Database.$PACKAGE_VERSION.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
         
    
 
