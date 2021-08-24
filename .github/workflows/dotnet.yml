@@ -53,7 +53,6 @@ jobs:
     - name: Push OctoFX Database
       run: |
         octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.Database.$PACKAGE_VERSION.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
- 
     - name: Push OctoFX TradingWebsite
       run: |
         octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite.$PACKAGE_VERSION.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
