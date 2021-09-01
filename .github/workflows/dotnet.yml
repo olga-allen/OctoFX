@@ -54,6 +54,22 @@ jobs:
       run: |
         octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.Database.1.0.0.1.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
+    - name: Package OctoFX.RateService
+      run: |
+        octo pack --id="OctoFX.RateService" --outFolder="$GITHUB_WORKSPACE/artifacts"  --version=1.0.0.1
+        
+    - name: Push OctoFX RateService
+      run: |
+        octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.RateService.1.0.0.1.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
+    - name: Package OctoFX.TradingWebsite
+      run: |
+        octo pack --id="OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts"  --version=1.0.0.1
+        
+    - name: Push OctoFX RateService
+      run: |
+        octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite.1.0.0.1.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
         
    
 
