@@ -26,15 +26,35 @@ jobs:
     - name: Restore dependencies
       run: nuget restore source/OctoFX.sln
       
-    - name: Build
-      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile -verbosity:quiet
-
-    - name: Test
-      run: dotnet test source/OctoFX.sln --no-build --verbosity normal
+  
     - name: Create artifacts folder
+      env: 
+        NUSPEC_FILE_NAME: "package.nuspec"
+      
       run: |
         mkdir "$GITHUB_WORKSPACE/artifacts"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.Database"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.RateService"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctopusSamples.OctoFX.TradingWebsite"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
+        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
+          
+        
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octocli@v1
+      with:
+        version: 7.4.2    
+         
+    - name: Build
+      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true
+
+    - name: Package OctoFX.Database
+      run: |
+        octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+        
+    - name: Push OctoFX Database
+      run: |
+        octo push --package="$WORKSPACE/artifacts/OctoFX.Database.$PACKAGE_VERSION.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
+        
+   
+
 
