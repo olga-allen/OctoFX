@@ -48,15 +48,15 @@ jobs:
   
     - name: Package OctoFX.TradingWebsite
       run: |
-        octo pack --id="OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts"  --version=1.0.0.2 --basePath=source\OctoFX.TradingWebsite
-        
+        octo pack --id="OctoFX.TradingWebsite" --outFolder="$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"  --version="1.0.0.3" --basePath="source\OctoFX.TradingWebsite"
+ 
     - name: Push OctoFX TradingWebsite
       run: |
         octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite.1.0.0.2.nupkg" --overwrite-mode=IgnoreIfExists --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
     - name: Package OctoFX.Database
       run: |
-        octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"  --version=1.0.0.2
+        octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"  --version=1.0.0.2 --basePath="source\OctoFX.Database"
         
     - name: Push OctoFX Database
       run: |
@@ -68,7 +68,7 @@ jobs:
         
     - name: Push OctoFX RateService
       run: |
-        octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.RateService.1.0.0.1.nupkg" --overwrite-mode=IgnoreIfExists --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+        octo push --package="$GITHUB_WORKSPACE/artifacts/OctoFX.RateService.1.0.0.2.nupkg" --overwrite-mode=IgnoreIfExists --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
    
         
