@@ -50,7 +50,7 @@ jobs:
       
     - name: Push OctoFX TradingWebsite
       run: |
-        octo push --package="obj/octopacked/OctoFX.TradingWebsite.1.0.0.0.nupkg" --overwrite-mode=IgnoreIfExists --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+        octo push --package="source/OctoFX.TradingWebsite/obj/octopacked/OctoFX.TradingWebsite.1.0.0.0.nupkg" --overwrite-mode=IgnoreIfExists --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
       
    
