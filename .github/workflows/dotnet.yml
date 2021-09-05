@@ -33,7 +33,7 @@ jobs:
          
     - name: Build
        ##run: msbuild source/OctoFX.TradingWebsite/OctoFX.TradingWebsite.csproj  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet
-      run: msbuild source/OctoFX.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet /p:Version=1.0.0.3
+      run: msbuild source/OctoFX.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet /p:OctoPackPackageVersion=1.0.$GITHUB_RUN_NUMBER
    
       
     - name: Push OctoFX TradingWebsite
