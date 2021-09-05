@@ -33,7 +33,7 @@ jobs:
          
     - name: Build
        ##run: msbuild source/OctoFX.TradingWebsite/OctoFX.TradingWebsite.csproj  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet
-      run: msbuild source/OctoFX.sln /t:Pack  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet /p:PackageVersion=1.0.0.3
+      run: msbuild source/OctoFX.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet /p:Version=1.0.0.3
    
       
     - name: Push OctoFX TradingWebsite
@@ -46,7 +46,7 @@ jobs:
 
     - name: Push OctoFX Database
       run: |
-        octo push --package="source/OctoFX.Database/obj/octopacked/OctoFX.Database.1.0.0.3.nupkg" --overwrite-mode=OverwriteExisting --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+        octo push --package="source/OctoFX.Database/obj/octopacked/OctoFX.Database.1.0.0.0.nupkg" --overwrite-mode=OverwriteExisting --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
 
 
