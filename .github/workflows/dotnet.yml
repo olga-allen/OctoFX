@@ -22,39 +22,33 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5 
 
-      
     - name: Restore dependencies
       run: nuget restore source/OctoFX.sln
       
-  
-    - name: Create artifacts folder
-      env: 
-        NUSPEC_FILE_NAME: "package.nuspec"
-      
-      run: |
-        mkdir "$GITHUB_WORKSPACE/artifacts"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.Database"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.RateService"
-        mkdir "$GITHUB_WORKSPACE/artifacts/OctoFX.TradingWebsite"
           
-        
     - name: Install Octopus CLI
       uses: OctopusDeploy/install-octocli@v1
       with:
         version: 7.4.2    
          
     - name: Build
-      run: msbuild source/OctoFX.sln  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true
-
-    - name: Package OctoFX.Database
+       ##run: msbuild source/OctoFX.TradingWebsite/OctoFX.TradingWebsite.csproj  /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet
+      run: msbuild source/OctoFX.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RunOctoPack=true /p:Verbocity=quet /p:OctoPackPackageVersion=1.0.$GITHUB_RUN_NUMBER
+   
+      
+    - name: Push OctoFX TradingWebsite
       run: |
-        octo pack --id="OctoFX.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
-        
+        octo push --package="source/OctoFX.TradingWebsite/obj/octopacked/OctoFX.TradingWebsite.1.0.0.0.nupkg" --overwrite-mode=OverwriteExisting --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
+    - name: Push OctoFX RateService
+      run: |
+        octo push --package="source/OctoFX.RateService/obj/octopacked/OctoFX.RateService.1.0.0.0.nupkg" --overwrite-mode=OverwriteExisting --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+
     - name: Push OctoFX Database
       run: |
-        octo push --package="$WORKSPACE/artifacts/OctoFX.Database.$PACKAGE_VERSION.nupkg" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+        octo push --package="source/OctoFX.Database/obj/octopacked/OctoFX.Database.1.0.0.0.nupkg" --overwrite-mode=OverwriteExisting --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
 
-        
+
+
    
-
-
+   
